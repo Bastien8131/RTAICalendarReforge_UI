@@ -1,0 +1,7 @@
+{
+  "name": "rtaicalendar-reforge-mobile-ui",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
