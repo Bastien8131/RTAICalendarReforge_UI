@@ -1,0 +1,32 @@
+section{
+  display: flex;
+  flex-direction: row;
+  .day-info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 15px;
+    .day-name{
+      &.currentDay{
+        color: cornflowerblue;
+      }
+    }
+    .day-number{
+      padding: 2px;
+      font-size: x-large;
+      border-radius: 100%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      &.currentDay{
+        background: cornflowerblue;
+      }
+    }
+  }
+  .events{
+    width: 100%;
+  }
+}

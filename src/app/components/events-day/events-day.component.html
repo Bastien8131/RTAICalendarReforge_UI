@@ -1,0 +1,19 @@
+<section>
+  <div class="day-info">
+    {{test}}
+    <span class="day-name">{{getDateInfo().day}}</span>
+    <span class="day-number">{{getDateInfo().dayNumber}}</span>
+  </div>
+  <div class="events">
+    <ion-card *ngFor="let event of day.events" >
+      <ion-card-header>
+        <ion-card-title>{{event.SUMMARY}}</ion-card-title>
+        <ion-card-subtitle>{{event.DESCRIPTION}}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        {{event.LOCATION}}
+      </ion-card-content>
+    </ion-card>
+  </div>
+</section>
