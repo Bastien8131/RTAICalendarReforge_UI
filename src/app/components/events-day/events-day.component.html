@@ -1,19 +1,37 @@
-<section>
-  <div class="day-info">
-    {{test}}
-    <span class="day-name">{{getDateInfo().day}}</span>
-    <span class="day-number">{{getDateInfo().dayNumber}}</span>
-  </div>
-  <div class="events">
-    <ion-card *ngFor="let event of day.events" >
-      <ion-card-header>
-        <ion-card-title>{{event.SUMMARY}}</ion-card-title>
-        <ion-card-subtitle>{{event.DESCRIPTION}}</ion-card-subtitle>
-      </ion-card-header>
 
-      <ion-card-content>
-        {{event.LOCATION}}
-      </ion-card-content>
-    </ion-card>
+
+
+
+<section *ngFor="let month of months" id="{{ getMonthId(month) }}" >
+  <img *ngIf="month.days.length != 0" src="{{getMonthImg(month)}}">
+  <div class="month-events" *ngFor="let day of month.days" >
+    <div class="day-info" id="{{getDateInfo(day).time}}">
+      <!--    {{test}}-->
+      <span class="day-name">{{getDateInfo(day).day}}</span>
+      <span class="day-number">{{getDateInfo(day).dayNumber}}</span>
+<!--          <span class="day-name">{{getDateInfo(day).month}}</span>-->
+    </div>
+    <div class="events">
+      <ion-card *ngFor="let event of day.events">
+        <ion-card-header [ngClass]="{'dark': theme.isDarkTheme}" >
+          <ion-card-title>
+            {{event.SUMMARY}}
+            <!--          <ion-badge color="danger">1000</ion-badge>-->
+          </ion-card-title>
+          <ion-card-subtitle *ngIf="event.DESCRIPTION != 'null'" >
+            {{event.DESCRIPTION}}
+          </ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content *ngIf="event.LOCATION != 'null'" >
+          {{event.LOCATION}} - De {{event.DTSTART | date: 'HH:mm':'fr-FR'}} à {{event.DTEND | date: 'HH:mm':'fr-FR' }}
+        </ion-card-content>
+      </ion-card>
+    </div>
   </div>
 </section>
+<div class="reload" [ngClass]="{'show': showRefreshButton}">
+  <ion-button (click)="reloadPage()" >
+    <ion-icon name="reload-outline"></ion-icon>
+  </ion-button>
+</div>

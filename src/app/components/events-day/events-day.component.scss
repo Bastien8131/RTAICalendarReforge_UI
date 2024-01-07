@@ -1,4 +1,4 @@
-section{
+.month-events{
   display: flex;
   flex-direction: row;
   .day-info{
@@ -30,3 +30,53 @@ section{
     width: 100%;
   }
 }
+
+.reload{
+  position: fixed;
+  bottom: 30px;
+  margin: 10px;
+  right: -100px;
+  transition: right 0.2s ease-in-out;
+  &.show{
+    right: 0;
+  }
+  ion-button{
+    width: 60px;
+    height: 60px;
+    --border-radius: 15px;
+    ion-icon{
+      font-size: 30px;
+    }
+  }
+}
+
+
+//ion-card{
+//  background-color: #ffffff;
+//  ion-card-header{
+//    ion-card-title{
+//      color: black;
+//    }
+//    ion-card-subtitle{
+//      color: black;
+//    }
+//  }
+//  ion-card-content{
+//    color: black;
+//  }
+//
+//  &.dark{
+//    background-color: #000000;
+//    ion-card-header{
+//      ion-card-title{
+//        color: white;
+//      }
+//      ion-card-subtitle{
+//        color: white;
+//      }
+//    }
+//    ion-card-content{
+//      color: white;
+//    }
+//  }
+//}

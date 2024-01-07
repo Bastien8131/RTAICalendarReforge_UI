@@ -7,12 +7,18 @@
     position: relative;
     width: 100%;
     max-width: none;
-    top: -45px;
+    //top: -45px;
   }
   &.show{
-    height: 255px;
+    height: 300px;
   }
 }
- 
 
-
+.ion-page{
+  ion-icon[name="caret-down-outline"]{
+    transition: transform 0.2s ease-in-out;
+    &.rotate{
+      transform: rotate(-180deg);
+    }
+  }
+}

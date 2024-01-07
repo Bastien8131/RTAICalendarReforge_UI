@@ -32,7 +32,14 @@ export class CalendarRTAIService {
     let eventsByDay: {date: string, events: VEventsModel[]}[] = [];
     for (let event of this.data.VEVENTS) {
       let date = this.convertirStringEnDate(event.DTSTART);
-      let dateKey = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+
+      let year = date.getFullYear().toString();
+      let month = (date.getMonth() + 1).toString();
+      if (month.length == 1) month = "0" + month;
+      let day = date.getDate().toString();
+      if (day.length == 1) day = "0" + day;
+
+      let dateKey = year + "-" + month + "-" + day;
 
       let index = eventsByDay.findIndex((value) => value.date == dateKey);
       if (index == -1) {
@@ -51,6 +58,70 @@ export class CalendarRTAIService {
 
 
     return eventsByDay;
+  }
+
+  groupRTAIEventsByMonth(){
+    let eventsByDay = this.groupRTAIEventByDay();
+    let eventsByMouth: { days: { date: string, events: VEventsModel[] }[] }[] = [];
+
+    for (let i = 0; i < 12; i++) {
+      eventsByMouth[i] = { days: [] };
+    }
+
+    for (let event of eventsByDay) {
+      // console.log(new Date(event.date).getMonth())
+      switch (new Date(event.date).getMonth()) {
+        case 0:
+          if (eventsByMouth[0] == undefined) eventsByMouth[0] = { days: [] };
+          eventsByMouth[0].days.push(event);
+          break;
+        case 1:
+          if (eventsByMouth[1] == undefined) eventsByMouth[1] = { days: [] };
+          eventsByMouth[1].days.push(event);
+          break;
+        case 2:
+          if (eventsByMouth[2] == undefined) eventsByMouth[2] = { days: [] };
+          eventsByMouth[2].days.push(event);
+          break;
+        case 3:
+          if (eventsByMouth[3] == undefined) eventsByMouth[3] = { days: [] };
+          eventsByMouth[3].days.push(event);
+          break;
+        case 4:
+          if (eventsByMouth[4] == undefined) eventsByMouth[4] = { days: [] };
+          eventsByMouth[4].days.push(event);
+          break;
+        case 5:
+          if (eventsByMouth[5] == undefined) eventsByMouth[5] = { days: [] };
+          eventsByMouth[5].days.push(event);
+          break;
+        case 6:
+          if (eventsByMouth[6] == undefined) eventsByMouth[6] = { days: [] };
+          eventsByMouth[6].days.push(event);
+          break;
+        case 7:
+          if (eventsByMouth[7] == undefined) eventsByMouth[7] = { days: [] };
+          eventsByMouth[7].days.push(event);
+          break;
+        case 8:
+          if (eventsByMouth[8] == undefined) eventsByMouth[8] = { days: [] };
+          eventsByMouth[8].days.push(event);
+          break;
+        case 9:
+          if (eventsByMouth[9] == undefined) eventsByMouth[9] = { days: [] };
+          eventsByMouth[9].days.push(event);
+          break;
+        case 10:
+          if (eventsByMouth[10] == undefined) eventsByMouth[10] = { days: [] };
+          eventsByMouth[10].days.push(event);
+          break;
+        case 11:
+          if (eventsByMouth[11] == undefined) eventsByMouth[11] = { days: [] };
+          eventsByMouth[11].days.push(event);
+      }
+    }
+
+    return eventsByMouth;
   }
 
 
