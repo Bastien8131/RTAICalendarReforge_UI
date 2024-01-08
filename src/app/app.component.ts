@@ -18,7 +18,8 @@ export class AppComponent {
   data!: ICalModel;
   viewDate: Date = new Date();
   currentDate: string = new Date().toISOString();
-  month: string = 'Janvier'
+  monthView: string = new Date().toLocaleString('fr-FR', { month: 'long' });
+  monthValue: number = new Date().getMonth();
   // view = CalendarView.Week;
   // calendarView = CalendarView;
   viewMenuTitle: string = "Semaine";
@@ -49,7 +50,10 @@ export class AppComponent {
   octobreSection!: HTMLElement
   novembreSection!: HTMLElement
   decembreSection!: HTMLElement
-
+  search: string = '';
+  searchInput: string = '';
+  searchHistory: string[] = ['droit', 'congé', 'maladie', 'arrêt', 'convention', 'congés', 'convention collective', 'congés payés', 'congés exceptionnels', 'congés exceptionne', "alternance"]
+  searchFav: string[] = ['droit']
 
 
   constructor(
@@ -106,7 +110,7 @@ export class AppComponent {
     let element = document.getElementById(String(time)) as HTMLElement
     // console.log(element.offsetTop)
     ionMain.scrollTo(0, element.offsetTop - 100)
-    this.month = new Date(time).toLocaleDateString('fr-FR', { month: 'long' })
+    this.monthView = new Date(time).toLocaleDateString('fr-FR', { month: 'long' })
   }
 
   tableauDeNombres() {
@@ -117,11 +121,9 @@ export class AppComponent {
     return tableau;
   }
 
-  dismissModal() {
-    this.modal.dismiss(null, 'cancel')
-  }
 
-  onScroll($any: any) {
+
+  onScroll() {
     this.setMonth()
   }
 
@@ -129,40 +131,40 @@ export class AppComponent {
 
     // console.log(this.isVisible(ele))
     if(this.isVisible(this.janvierSection)){
-      this.month = 'Janvier'
+      this.monthView = 'Janvier'
     }
     if(this.isVisible(this.fevrierSection)){
-      this.month = 'Février'
+      this.monthView = 'Février'
     }
     if(this.isVisible(this.marsSection)){
-      this.month = 'Mars'
+      this.monthView = 'Mars'
     }
     if(this.isVisible(this.avrilSection)){
-      this.month = 'Avril'
+      this.monthView = 'Avril'
     }
     if(this.isVisible(this.maiSection)){
-      this.month = 'Mai'
+      this.monthView = 'Mai'
     }
     if(this.isVisible(this.juinSection)){
-      this.month = 'Juin'
+      this.monthView = 'Juin'
     }
     if(this.isVisible(this.juilletSection)){
-      this.month = 'Juillet'
+      this.monthView = 'Juillet'
     }
     if(this.isVisible(this.aoutSection)){
-      this.month = 'Août'
+      this.monthView = 'Août'
     }
     if(this.isVisible(this.septembreSection)){
-      this.month = 'Septembre'
+      this.monthView = 'Septembre'
     }
     if(this.isVisible(this.octobreSection)){
-      this.month = 'Octobre'
+      this.monthView = 'Octobre'
     }
     if(this.isVisible(this.novembreSection)){
-      this.month = 'Novembre'
+      this.monthView = 'Novembre'
     }
     if(this.isVisible(this.decembreSection)){
-      this.month = 'Décembre'
+      this.monthView = 'Décembre'
     }
   }
 
@@ -209,4 +211,84 @@ export class AppComponent {
   reloadPage() {
     window.location.reload();
   }
+
+  dismissModal() {
+    this.modal.dismiss(null, 'cancel')
+  }
+
+  searchbarEnter(event: any) {
+    // console.log(event.target.value)
+    this.search = event.target.value.toLowerCase();
+    if(this.search.length >= 3){
+      this.dismissModal();
+      this.pushInSearchHistory(this.search);
+    }
+  }
+
+  searchbarInput($event: any) {
+    this.searchInput = $event.target.value.toLowerCase();
+  }
+
+  searchbarHistory(item: string) {
+    this.search = item.toLowerCase();
+    this.dismissModal();
+  }
+
+  pushInSearchHistory(search: string) {
+    if(!this.searchHistory.includes(search)){
+      this.searchHistory.unshift(search)
+      if(this.searchHistory.length > 20 && !this.searchFav.includes(search)){
+        this.searchHistory.shift()
+      }
+    }
+  }
+
+  deleteHistoryItem(search: string) {
+    if(!this.searchFav.includes(search)){
+      this.searchHistory = this.searchHistory.filter((value => value != search))
+    }
+
+  }
+
+  addSearchToFav(search: string) {
+    console.log(this.searchFav.length)
+    if(!this.searchFav.includes(search) && this.searchFav.length < 10){
+      this.searchFav.unshift(search)
+    }
+
+  }
+
+  deleteSearchToFav(search: string) {
+    console.log(this.searchFav.length)
+    this.searchFav = this.searchFav.filter((value => value != search))
+  }
+
+  searchbarIsFav(search: string) {
+    return this.searchFav.includes(search)
+  }
+
+  goBeforeMount(){
+    let ionMain = document.querySelector("#main-content > ion-content")?.shadowRoot?.querySelector("main") as HTMLElement;
+
+    let before = (this.monthValue - 1 ).toString()
+
+    if(document.getElementById(before) != null){
+      let element = document.getElementById(before) as HTMLElement
+      ionMain.scrollTo(0, element.offsetTop - 100)
+      this.monthValue = this.monthValue - 1
+    }
+  }
+
+  goNextMount(){
+    let ionMain = document.querySelector("#main-content > ion-content")?.shadowRoot?.querySelector("main") as HTMLElement;
+
+    let after = (this.monthValue + 1 ).toString()
+
+    if(document.getElementById(after) != null){
+      let element = document.getElementById(after) as HTMLElement
+      ionMain.scrollTo(0, element.offsetTop - 100)
+      this.monthValue = this.monthValue + 1
+    }
+  }
 }
+

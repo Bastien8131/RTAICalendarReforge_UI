@@ -14,17 +14,22 @@ export class EventsDayComponent  implements OnInit {
   months!: { days: { date: string, events: VEventsModel[] }[] }[];
   @Input() showRefreshButton!: boolean;
   @Output() afterView = new EventEmitter<void>();
+  @Input() search: string = '';
 
   constructor(
     protected theme: ToggleThemeService,
     private calendarRTAI: CalendarRTAIService
   ) {
     // this.days = this.calendarRTAI.groupRTAIEventByDay();
-    this.months = this.calendarRTAI.groupRTAIEventsByMonth();
     // console.log(this.months)
   }
 
   ngOnInit() {
+    this.months = this.searchInRTAIEvents(this.calendarRTAI.groupRTAIEventsByMonth());
+  }
+
+  ngOnChanges() {
+    this.months = this.searchInRTAIEvents(this.calendarRTAI.groupRTAIEventsByMonth());
   }
 
   ngAfterViewInit() {
@@ -97,4 +102,35 @@ export class EventsDayComponent  implements OnInit {
       return -1
     }
   }
+
+  searchInRTAIEvents(data: { days: { date: string; events: VEventsModel[] }[] }[]): { days: { date: string; events: VEventsModel[] }[] }[]{
+    let rs: { days: { date: string; events: VEventsModel[] }[] }[] = [];
+
+    if(this.search.length < 3){
+      return data;
+    }else{
+      for(let month of data){
+        let days: { date: string; events: VEventsModel[] }[] = [];
+        for(let day of month.days){
+          let events: VEventsModel[] = [];
+          for(let event of day.events){
+            if(event.SUMMARY.toLowerCase().includes(this.search.toLowerCase())){
+              events.push(event);
+            }
+          }
+          if(events.length > 0){
+            days.push({date: day.date, events: events})
+          }
+        }
+        if(days.length > 0){
+          rs.push({days: days})
+        }
+      }
+      return rs;
+    }
+
+
+
+  }
+
 }

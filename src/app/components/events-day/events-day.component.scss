@@ -1,33 +1,43 @@
-.month-events{
-  display: flex;
-  flex-direction: row;
-  .day-info{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    margin-top: 15px;
-    .day-name{
-      &.currentDay{
-        color: cornflowerblue;
-      }
-    }
-    .day-number{
-      padding: 2px;
-      font-size: x-large;
-      border-radius: 100%;
-      width: 30px;
-      height: 30px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      &.currentDay{
-        background: cornflowerblue;
-      }
-    }
+section{
+  img{
+    user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
   }
-  .events{
-    width: 100%;
+  .month-events{
+    display: flex;
+    flex-direction: row;
+    .day-info{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      margin-top: 15px;
+      .day-name{
+        &.currentDay{
+          color: cornflowerblue;
+        }
+      }
+      .day-number{
+        padding: 2px;
+        font-size: x-large;
+        border-radius: 100%;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &.currentDay{
+          background: cornflowerblue;
+        }
+      }
+    }
+    .events{
+      width: 100%;
+    }
   }
 }
 
@@ -38,7 +48,7 @@
   right: -100px;
   transition: right 0.2s ease-in-out;
   &.show{
-    right: 0;
+    right: 10px;
   }
   ion-button{
     width: 60px;

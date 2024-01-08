@@ -56,6 +56,15 @@ export class CalendarRTAIService {
       return dateA.getTime() - dateB.getTime();
     });
 
+    //trie les events d'un jour par heure
+    for (let day of eventsByDay) {
+      day.events.sort((a, b) => {
+        let dateA = this.convertirStringEnDate(a.DTSTART);
+        let dateB = this.convertirStringEnDate(b.DTSTART);
+        return dateA.getTime() - dateB.getTime();
+      });
+    }
+
 
     return eventsByDay;
   }
