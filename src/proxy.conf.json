@@ -1,0 +1,23 @@
+{
+  "/API-RTAICalReforge/events":{
+    "target": "http://192.168.1.110:8080/API-RTAICalReforge/events",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/API-RTAICalReforge/events": ""
+    }
+  },
+  "/API-RTAICalReforge/events/days":{
+    "target": "http://192.168.1.110:8080/API-RTAICalReforge/events/days",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/API-RTAICalReforge/events/days": ""
+    }
+  },
+  "/API-RTAICalReforge/events/months":{
+    "target": "http://192.168.1.110:8080/API-RTAICalReforge/events/months",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/API-RTAICalReforge/events/months": ""
+    }
+  }
+}

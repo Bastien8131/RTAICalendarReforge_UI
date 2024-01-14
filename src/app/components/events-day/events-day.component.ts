@@ -10,11 +10,12 @@ import {CalendarRTAIService} from "../../services/calendarRTAI/calendar-rtai.ser
 })
 export class EventsDayComponent  implements OnInit {
   // @Input() day!: { date: string; events: VEventsModel[] };
-  days!: { date: string; events: VEventsModel[] }[];
+  // days!: { date: string; events: VEventsModel[] }[];
   months!: { days: { date: string, events: VEventsModel[] }[] }[];
   @Input() showRefreshButton!: boolean;
   @Output() afterView = new EventEmitter<void>();
   @Input() search: string = '';
+  @Input() dataMonth!: Promise<{ days: { date: string; events: VEventsModel[] }[] }[] | null>;
 
   constructor(
     protected theme: ToggleThemeService,
@@ -25,15 +26,30 @@ export class EventsDayComponent  implements OnInit {
   }
 
   ngOnInit() {
-    this.months = this.searchInRTAIEvents(this.calendarRTAI.groupRTAIEventsByMonth());
+    this.downloadEventsByMonths();
   }
 
   ngOnChanges() {
-    this.months = this.searchInRTAIEvents(this.calendarRTAI.groupRTAIEventsByMonth());
+    // this.months = this.searchInRTAIEvents(this.calendarRTAI.groupRTAIEventsByMonth());
+    this.getEventsByMonths()
   }
 
-  ngAfterViewInit() {
-    this.afterView.emit();
+  downloadEventsByMonths(){
+    this.calendarRTAI.getEventsByMonths()
+      .then((response) => {
+        // Faire quelque chose avec la réponse
+        // console.log("Traitement de la réponse :", response);
+        this.months = response as { days: { date: string, events: VEventsModel[] }[] }[];
+      })
+      .catch((error) => {
+        // Gérer l'erreur
+        console.error("Erreur lors de la requête :", error);
+        return null
+      });
+  }
+
+  getEventsByMonths(){
+    this.months = this.searchInRTAIEvents(this.calendarRTAI.eventsByMonth)
   }
 
   getDateInfo(day: { date: string; events: VEventsModel[] }){
@@ -50,16 +66,7 @@ export class EventsDayComponent  implements OnInit {
       yearNumber: date.toLocaleDateString('fr-FR', { year: 'numeric' }),
       time: date.getTime(),
     }
-
-
     return rs;
-  }
-
-  reloadPage(){
-    // this.calendarRTAI.getCalendarData();
-    // this.days = this.calendarRTAI.groupRTAIEventByDay();
-    // console.log('reloadData')
-    window.location.reload();
   }
 
   getMonthImg(month: { days: { date: string; events: VEventsModel[] }[] }) {

@@ -16,27 +16,19 @@ export class AppComponent {
 
   @ViewChild(IonModal) modal!: IonModal;
   data!: ICalModel;
-  viewDate: Date = new Date();
+  dataMonth!: { days: { date: string, events: VEventsModel[] }[] }[];
+
+
   currentDate: string = new Date().toISOString();
   monthView: string = new Date().toLocaleString('fr-FR', { month: 'long' });
-  monthValue: number = new Date().getMonth();
-  // view = CalendarView.Week;
-  // calendarView = CalendarView;
-  viewMenuTitle: string = "Semaine";
   showDatePickers: boolean = false;
   showRefreshButton: boolean = true;
-  themeToggle: any;
   selectedDateTime: any;
-  isWeekday = (dateString: string) => {
-    const date = new Date(dateString);
-    const utcDay = date.getUTCDay();
 
-    /**
-     * Date will be enabled if it is not
-     * Sunday or Saturday
-     */
-    return utcDay !== 0 && utcDay !== 6;
-  };
+  search: string = '';
+  searchInput: string = '';
+  searchHistory: string[] = []
+  searchFav: string[] = []
 
   janvierSection!: HTMLElement
   fevrierSection!: HTMLElement
@@ -50,10 +42,21 @@ export class AppComponent {
   octobreSection!: HTMLElement
   novembreSection!: HTMLElement
   decembreSection!: HTMLElement
-  search: string = '';
-  searchInput: string = '';
-  searchHistory: string[] = ['droit', 'congé', 'maladie', 'arrêt', 'convention', 'congés', 'convention collective', 'congés payés', 'congés exceptionnels', 'congés exceptionne', "alternance"]
-  searchFav: string[] = ['droit']
+
+  isWeekday = (dateString: string) => {
+    const date = new Date(dateString);
+    const utcDay = date.getUTCDay();
+
+    /**
+     * Date will be enabled if it is not
+     * Sunday or Saturday
+     */
+    return utcDay !== 0 && utcDay !== 6;
+  };
+
+  autoTheme: boolean = true;
+  isDarkTheme: boolean = false;
+  systemIsDark = window.matchMedia('(prefers-color-scheme: dark)');
 
 
   constructor(
@@ -62,39 +65,53 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    this.calendarRTAI.getCalendarData();
+    // this.calendarRTAI.getCalendarData();
+
+    this.toggleDarkTheme(this.systemIsDark.matches);
+    this.systemIsDark.addEventListener('change', (mediaQuery) => {
+      if (this.autoTheme) {
+        this.toggleDarkTheme(mediaQuery.matches);
+      }
+    });
 
 
 
 
-    // Use matchMedia to check the user preference
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-
-    // Initialize the dark theme based on the initial
-    // value of the prefers-color-scheme media query
-    this.initializeDarkTheme(prefersDark.matches);
-
-    // Listen for changes to the prefers-color-scheme media query
-    prefersDark.addEventListener('change', (mediaQuery) => this.initializeDarkTheme(mediaQuery.matches));
   }
 
 
-// Check/uncheck the toggle and update the theme based on isDark
-  initializeDarkTheme(isDark: boolean | undefined) {
-    this.themeToggle = isDark;
-    this.toggleDarkTheme(isDark);
+
+  onScroll() {
+    this.setMonthView()
   }
 
-  // Listen for the toggle check/uncheck to toggle the dark theme
-  toggleChange(ev: { detail: { checked: any; }; }) {
+  reloadPage() {
+    window.location.reload();
+  }
+
+  goToTheStart(){
+    let ionMain = document.querySelector("#main-content > ion-content")?.shadowRoot?.querySelector("main") as HTMLElement;
+    ionMain.scrollTo(0, 0)
+  }
+
+  //---FONCTIONS POUR LE CHANGEMENT DE THEME---//
+
+  changeTheme(ev: { detail: { checked: any; }; }) {
     this.toggleDarkTheme(ev.detail.checked);
   }
 
-  // Add or remove the "dark" class on the document body
-  toggleDarkTheme(shouldAdd: boolean | undefined) {
+  toggleDarkTheme(shouldAdd: boolean) {
+    this.isDarkTheme = shouldAdd;
     document.body.classList.toggle('dark', shouldAdd);
   }
 
+  themeIsAsync(){
+    if(this.isDarkTheme == !this.systemIsDark.matches){
+      this.toggleDarkTheme(this.systemIsDark.matches)
+    }
+  }
+
+  //---FONCTIONS LIEES AU CALENDRIER---//
 
   showDay() {
     let ionMain = document.querySelector("#main-content > ion-content")?.shadowRoot?.querySelector("main") as HTMLElement;
@@ -113,21 +130,7 @@ export class AppComponent {
     this.monthView = new Date(time).toLocaleDateString('fr-FR', { month: 'long' })
   }
 
-  tableauDeNombres() {
-    let tableau = [];
-    for (let i = 0; i < 1000; i++) {
-      tableau.push(i);
-    }
-    return tableau;
-  }
-
-
-
-  onScroll() {
-    this.setMonth()
-  }
-
-  setMonth() {
+  setMonthView() {
 
     // console.log(this.isVisible(ele))
     if(this.isVisible(this.janvierSection)){
@@ -170,20 +173,11 @@ export class AppComponent {
 
   private isVisible(ele: HTMLElement) {
 
-    // console.log(ele)
-
     if(ele != null){
 
       let rect = ele.getBoundingClientRect();
       let top = rect.top;
       let bottom = rect.bottom;
-
-      // console.log(top)
-      // console.log(bottom)
-      // console.log(window.innerHeight)
-      // console.log(top >= 0)
-      // console.log(bottom <= window.innerHeight)
-
 
       let isVisible = (top <= 0) && (bottom >= window.innerHeight);
       return isVisible;
@@ -208,9 +202,7 @@ export class AppComponent {
     this.decembreSection = document.getElementById('11') as HTMLElement
   }
 
-  reloadPage() {
-    window.location.reload();
-  }
+  //---FONCTIONS LIEES A LA BARRE DE RECHERCHE---//
 
   dismissModal() {
     this.modal.dismiss(null, 'cancel')
@@ -265,30 +257,6 @@ export class AppComponent {
 
   searchbarIsFav(search: string) {
     return this.searchFav.includes(search)
-  }
-
-  goBeforeMount(){
-    let ionMain = document.querySelector("#main-content > ion-content")?.shadowRoot?.querySelector("main") as HTMLElement;
-
-    let before = (this.monthValue - 1 ).toString()
-
-    if(document.getElementById(before) != null){
-      let element = document.getElementById(before) as HTMLElement
-      ionMain.scrollTo(0, element.offsetTop - 100)
-      this.monthValue = this.monthValue - 1
-    }
-  }
-
-  goNextMount(){
-    let ionMain = document.querySelector("#main-content > ion-content")?.shadowRoot?.querySelector("main") as HTMLElement;
-
-    let after = (this.monthValue + 1 ).toString()
-
-    if(document.getElementById(after) != null){
-      let element = document.getElementById(after) as HTMLElement
-      ionMain.scrollTo(0, element.offsetTop - 100)
-      this.monthValue = this.monthValue + 1
-    }
   }
 }
 

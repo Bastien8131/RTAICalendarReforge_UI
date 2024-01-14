@@ -2,6 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ICalModel } from 'src/app/modeles/ICalModel';
 import { VEventsModel } from 'src/app/modeles/VEventsModel';
+import {environment} from "../../../environments/environment";
+import {map} from "rxjs";
+import {error} from "@angular/compiler-cli/src/transformers/util";
 
 @Injectable({
   providedIn: 'root'
@@ -10,20 +13,33 @@ export class CalendarRTAIService {
 
   private _data!: ICalModel;
 
+  private _eventsByDay!: {date: string, events: VEventsModel[]}[];
+  private _eventsByMonth!: { days: { date: string, events: VEventsModel[] }[] }[];
+
   constructor(
     private httpClient: HttpClient,
-  ) { }
+  ) {
+  }
 
   get data(): ICalModel {
     return this._data;
   }
 
+
+  get eventsByMonth(): { days: { date: string; events: VEventsModel[] }[] }[] {
+    return this._eventsByMonth;
+  }
+
+  set eventsByMonth(value: { days: { date: string; events: VEventsModel[] }[] }[]) {
+    this._eventsByMonth = value;
+  }
+
   getCalendarData(){
     // this.loadingService.changeLoadingStatus()
     this.httpClient
-      .get("http://localhost:8080/api/message")
+      .get("http://localhost:8080/API-RTAICalReforge/events")
       .subscribe((response) => {
-        console.log(response);
+        // console.log(response);
         this._data = response as ICalModel;
     });
   }
@@ -65,7 +81,7 @@ export class CalendarRTAIService {
       });
     }
 
-
+    // console.log(eventsByDay)
     return eventsByDay;
   }
 
@@ -130,7 +146,29 @@ export class CalendarRTAIService {
       }
     }
 
+    // console.log(eventsByMouth)
+
     return eventsByMouth;
+  }
+
+  getEventsByMonths() {
+    // console.log("getEventsByMonth");
+
+    return new Promise((resolve, reject) => {
+      // this.httpClient.get(`${environment.get('months')}`)
+      this.httpClient.get(`http://192.168.1.110:8080/API-RTAICalReforge/events/months`)
+        .subscribe(
+          (response) => {
+            // console.log(response);
+            this._eventsByMonth = response as { days: { date: string, events: VEventsModel[] }[] }[];
+            resolve(response);
+          },
+          (error) => {
+            console.error(error);
+            reject(error);
+          }
+        );
+    });
   }
 
 

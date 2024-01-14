@@ -3,7 +3,24 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  API_ALL_EVENTS: '/API-RTAICalReforge/events',
+  API_EVENTS_BY_DAYS: '/API-RTAICalReforge/events/days',
+  API_EVENTS_BY_MONTHS: '/API-RTAICalReforge/events/months',
+
+  get(type: string) {
+    switch (type) {
+      case 'all':
+        return environment.API_ALL_EVENTS;
+      case 'days':
+        return environment.API_EVENTS_BY_DAYS;
+      case 'months':
+        return environment.API_EVENTS_BY_MONTHS;
+      default:
+        return environment.API_ALL_EVENTS;
+    }
+
+  }
 };
 
 /*

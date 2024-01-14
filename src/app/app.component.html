@@ -7,8 +7,17 @@
     </ion-header>
     <ion-content class="ion-padding">
       <ion-item>
-        <ion-toggle [(ngModel)]="themeToggle" (ionChange)="toggleChange($event)" justify="space-between">Dark Mode</ion-toggle>
+        <ion-toggle [checked]="autoTheme" (ionChange)="autoTheme = !autoTheme; themeIsAsync()" justify="space-between">Theme Automatique</ion-toggle>
       </ion-item>
+      <ion-item *ngIf="!autoTheme">
+        <ion-toggle [checked]="isDarkTheme" (ionChange)="changeTheme($event)" checked="false" justify="space-between">
+          <span *ngIf="isDarkTheme" >Theme Sombre</span>
+          <span *ngIf="!isDarkTheme" >Theme Clair</span>
+        </ion-toggle>
+      </ion-item>
+<!--      <ion-item>-->
+<!--        <ion-toggle [(ngModel)]="themeToggle" (ionChange)="changeTheme($event)" justify="space-between">Theme Sombre</ion-toggle>-->
+<!--      </ion-item>-->
       <ion-item>
         <ion-toggle [checked]="true" (ionChange)="showRefreshButton = !showRefreshButton" justify="space-between">Bouton d'actualisation</ion-toggle>
       </ion-item>
@@ -33,12 +42,12 @@
         <ion-button fill="clear"  slot="end" id="open-modal">
           <ion-icon name="search-outline"></ion-icon>
         </ion-button>
-        <ion-button fill="clear" slot="end" (click)="goBeforeMount()">
+        <ion-button fill="clear" slot="end" (click)="goToTheStart()">
           <ion-icon name="arrow-up-outline"></ion-icon>
         </ion-button>
-        <ion-button fill="clear" slot="end" (click)="goNextMount()">
-          <ion-icon name="arrow-down-outline"></ion-icon>
-        </ion-button>
+<!--        <ion-button fill="clear" slot="end" (click)="goToTheEnd()">-->
+<!--          <ion-icon name="arrow-down-outline"></ion-icon>-->
+<!--        </ion-button>-->
       </ion-toolbar>
       <div class="datetime-picker" [ngClass]="{'show' : showDatePickers}">
         <ion-datetime
@@ -97,7 +106,7 @@
         </ng-template>
       </ion-modal>
 
-      <app-events-day *ngIf="calendarRTAI.data != undefined"
+      <app-events-day
                       [search]="search"
                       (afterView)="setMonthSection()"
       ></app-events-day>

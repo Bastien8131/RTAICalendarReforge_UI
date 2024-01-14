@@ -1,0 +1,309 @@
+{
+  "version": "6.0",
+  "nxVersion": "17.1.3",
+  "deps": {
+    "@angular/animations": "^17.0.2",
+    "@angular/common": "^17.0.2",
+    "@angular/compiler": "^17.0.2",
+    "@angular/core": "^17.0.2",
+    "@angular/forms": "^17.0.2",
+    "@angular/platform-browser": "^17.0.2",
+    "@angular/platform-browser-dynamic": "^17.0.2",
+    "@angular/router": "^17.0.2",
+    "@angular/service-worker": "^17.0.2",
+    "@capacitor/app": "5.0.6",
+    "@capacitor/core": "5.6.0",
+    "@capacitor/haptics": "5.0.6",
+    "@capacitor/keyboard": "5.0.7",
+    "@capacitor/status-bar": "5.0.6",
+    "@ionic/angular": "^7.0.0",
+    "@ionic/pwa-elements": "^3.2.2",
+    "ionicons": "^7.0.0",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.14.2",
+    "@angular-devkit/build-angular": "^17.0.0",
+    "@angular-devkit/core": "^17.0.9",
+    "@angular-eslint/builder": "^17.0.0",
+    "@angular-eslint/eslint-plugin": "^17.0.0",
+    "@angular-eslint/eslint-plugin-template": "^17.0.0",
+    "@angular-eslint/schematics": "^17.0.0",
+    "@angular-eslint/template-parser": "^17.0.0",
+    "@angular/cli": "^17.0.0",
+    "@angular/compiler-cli": "^17.0.2",
+    "@angular/language-service": "^17.0.2",
+    "@capacitor/cli": "5.6.0",
+    "@ionic/angular-toolkit": "^9.0.0",
+    "@types/jasmine": "~5.1.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^7.26.0",
+    "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-jsdoc": "30.7.6",
+    "eslint-plugin-prefer-arrow": "1.2.2",
+    "jasmine-core": "~5.1.0",
+    "jasmine-spec-reporter": "~5.0.0",
+    "karma": "~6.4.0",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "ts-node": "^8.3.0",
+    "typescript": "~5.2.2"
+  },
+  "pathMappings": {},
+  "nxJsonPlugins": [],
+  "fileMap": {
+    "projectFileMap": {},
+    "nonProjectFiles": [
+      {
+        "file": ".browserslistrc",
+        "hash": "7979060078399394427"
+      },
+      {
+        "file": ".editorconfig",
+        "hash": "6686520031028425313"
+      },
+      {
+        "file": ".eslintrc.json",
+        "hash": "18210278994710539225"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "91109559695469517"
+      },
+      {
+        "file": ".vscode/extensions.json",
+        "hash": "592272277800690021"
+      },
+      {
+        "file": ".vscode/settings.json",
+        "hash": "1151538777131426085"
+      },
+      {
+        "file": "angular.json",
+        "hash": "3585641506409569166"
+      },
+      {
+        "file": "capacitor.config.ts",
+        "hash": "3297165295152934676"
+      },
+      {
+        "file": "ionic.config.json",
+        "hash": "13542930308479586125"
+      },
+      {
+        "file": "karma.conf.js",
+        "hash": "13719387092471133633"
+      },
+      {
+        "file": "ngsw-config.json",
+        "hash": "12579492061924086660"
+      },
+      {
+        "file": "package-lock.json",
+        "hash": "9744798841751892867"
+      },
+      {
+        "file": "package.json",
+        "hash": "12133960300117352397"
+      },
+      {
+        "file": "src/app/app-routing.module.ts",
+        "hash": "13450629744208209262"
+      },
+      {
+        "file": "src/app/app.component.html",
+        "hash": "6757040410205819923"
+      },
+      {
+        "file": "src/app/app.component.scss",
+        "hash": "2713676459085841336"
+      },
+      {
+        "file": "src/app/app.component.spec.ts",
+        "hash": "16655258543879266906"
+      },
+      {
+        "file": "src/app/app.component.ts",
+        "hash": "13708779198578487327"
+      },
+      {
+        "file": "src/app/app.module.ts",
+        "hash": "10971534563457283788"
+      },
+      {
+        "file": "src/app/components/events-day/events-day.component.html",
+        "hash": "7838800609135665377"
+      },
+      {
+        "file": "src/app/components/events-day/events-day.component.scss",
+        "hash": "7490576293307546732"
+      },
+      {
+        "file": "src/app/components/events-day/events-day.component.spec.ts",
+        "hash": "14133355328745807861"
+      },
+      {
+        "file": "src/app/components/events-day/events-day.component.ts",
+        "hash": "4532279359402323790"
+      },
+      {
+        "file": "src/app/modeles/ICalModel.ts",
+        "hash": "11034368834847218907"
+      },
+      {
+        "file": "src/app/modeles/VEventsModel.ts",
+        "hash": "5821060779142657417"
+      },
+      {
+        "file": "src/app/services/calendarRTAI/calendar-rtai.service.spec.ts",
+        "hash": "1587733994537070759"
+      },
+      {
+        "file": "src/app/services/calendarRTAI/calendar-rtai.service.ts",
+        "hash": "1875690011049922426"
+      },
+      {
+        "file": "src/app/services/toggleTheme/toggle-theme.service.spec.ts",
+        "hash": "855369812777386617"
+      },
+      {
+        "file": "src/app/services/toggleTheme/toggle-theme.service.ts",
+        "hash": "1617714725951359055"
+      },
+      {
+        "file": "src/assets/icon/favicon.png",
+        "hash": "17482944836898362639"
+      },
+      {
+        "file": "src/assets/icons/icon-128x128.png",
+        "hash": "16119513566521364320"
+      },
+      {
+        "file": "src/assets/icons/icon-144x144.png",
+        "hash": "7918264055681161054"
+      },
+      {
+        "file": "src/assets/icons/icon-152x152.png",
+        "hash": "15801439294603939434"
+      },
+      {
+        "file": "src/assets/icons/icon-192x192.png",
+        "hash": "5426725225393538606"
+      },
+      {
+        "file": "src/assets/icons/icon-384x384.png",
+        "hash": "14349113523743396697"
+      },
+      {
+        "file": "src/assets/icons/icon-512x512.png",
+        "hash": "15496412176428542718"
+      },
+      {
+        "file": "src/assets/icons/icon-72x72.png",
+        "hash": "8211841038932698272"
+      },
+      {
+        "file": "src/assets/icons/icon-96x96.png",
+        "hash": "17857169027528193372"
+      },
+      {
+        "file": "src/assets/img/google_agenda_month_card/Aout.jpg",
+        "hash": "7800160242791488632"
+      },
+      {
+        "file": "src/assets/img/google_agenda_month_card/Avril.jpg",
+        "hash": "12953482066685337034"
+      },
+      {
+        "file": "src/assets/img/google_agenda_month_card/Fevrier.jpg",
+        "hash": "17225149723875871218"
+      },
+      {
+        "file": "src/assets/img/google_agenda_month_card/Janvier.jpg",
+        "hash": "1948816155365481847"
+      },
+      {
+        "file": "src/assets/img/google_agenda_month_card/Juillet.jpg",
+        "hash": "10839744340641852041"
+      },
+      {
+        "file": "src/assets/img/google_agenda_month_card/Juin.jpg",
+        "hash": "12970543233566045609"
+      },
+      {
+        "file": "src/assets/img/google_agenda_month_card/Mai.jpg",
+        "hash": "15988556473539343482"
+      },
+      {
+        "file": "src/assets/img/google_agenda_month_card/Mars.jpg",
+        "hash": "11334759206386995612"
+      },
+      {
+        "file": "src/assets/img/google_agenda_month_card/Septembre.jpg",
+        "hash": "8740539348665179627"
+      },
+      {
+        "file": "src/assets/shapes.svg",
+        "hash": "4708889011185296100"
+      },
+      {
+        "file": "src/environments/environment.prod.ts",
+        "hash": "5406836414239361753"
+      },
+      {
+        "file": "src/environments/environment.ts",
+        "hash": "18403292367168274278"
+      },
+      {
+        "file": "src/global.scss",
+        "hash": "12234638728040246055"
+      },
+      {
+        "file": "src/index.html",
+        "hash": "9469231360072000158"
+      },
+      {
+        "file": "src/main.ts",
+        "hash": "978604568290537185"
+      },
+      {
+        "file": "src/manifest.webmanifest",
+        "hash": "10078094709780095471"
+      },
+      {
+        "file": "src/polyfills.ts",
+        "hash": "16163444994210036896"
+      },
+      {
+        "file": "src/proxy.conf.json",
+        "hash": "11998521763907334562"
+      },
+      {
+        "file": "src/test.ts",
+        "hash": "12412031923219697029"
+      },
+      {
+        "file": "src/theme/variables.scss",
+        "hash": "6609368257515863316"
+      },
+      {
+        "file": "src/zone-flags.ts",
+        "hash": "3323586086306676158"
+      },
+      {
+        "file": "tsconfig.app.json",
+        "hash": "9041030522571917449"
+      },
+      {
+        "file": "tsconfig.json",
+        "hash": "10012360461450920802"
+      },
+      {
+        "file": "tsconfig.spec.json",
+        "hash": "17198424518534092990"
+      }
+    ]
+  }
+}
