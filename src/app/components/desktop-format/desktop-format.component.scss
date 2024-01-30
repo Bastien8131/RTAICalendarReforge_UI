@@ -1,0 +1,14 @@
+.cal-button-group{
+  display: flex;
+  justify-content: space-between;
+  .cal-button-right{
+    display: flex;
+    .datepickers-button{
+      margin-left: 20px;
+    }
+  }
+  .cal-button-left{
+    width: 100px;
+    margin-right: 200px
+  }
+}

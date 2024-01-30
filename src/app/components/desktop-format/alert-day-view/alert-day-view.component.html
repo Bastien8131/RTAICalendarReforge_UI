@@ -1,0 +1,10 @@
+<div style="padding: 20px">
+  <h2>{{inputEvent.day.date.toLocaleString('fr-FR', { hour: 'numeric', minute: 'numeric', hour12: false })}}</h2>
+  <mwl-calendar-day-view style="height: 100%"
+    [viewDate]="inputEvent.day.date"
+    [events]="inputEvent.day.events"
+    [dayStartHour]="8"
+    [dayEndHour]="20"
+    locale="fr"
+  ></mwl-calendar-day-view>
+</div>

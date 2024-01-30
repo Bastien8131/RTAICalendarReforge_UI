@@ -6,6 +6,7 @@
     "@angular/common": "^17.0.2",
     "@angular/compiler": "^17.0.2",
     "@angular/core": "^17.0.2",
+    "@angular/flex-layout": "^15.0.0-beta.42",
     "@angular/forms": "^17.0.2",
     "@angular/platform-browser": "^17.0.2",
     "@angular/platform-browser-dynamic": "^17.0.2",
@@ -18,7 +19,10 @@
     "@capacitor/status-bar": "5.0.6",
     "@ionic/angular": "^7.0.0",
     "@ionic/pwa-elements": "^3.2.2",
+    "angular-calendar": "^0.31.0",
+    "date-fns": "^3.2.0",
     "ionicons": "^7.0.0",
+    "moment": "^2.30.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.2",
@@ -73,6 +77,22 @@
         "hash": "91109559695469517"
       },
       {
+        "file": ".nx/cache/file-map.json",
+        "hash": "5040263693075038025"
+      },
+      {
+        "file": ".nx/cache/lockfile.hash",
+        "hash": "15814262336213216018"
+      },
+      {
+        "file": ".nx/cache/parsed-lock-file.json",
+        "hash": "8745404228515120640"
+      },
+      {
+        "file": ".nx/cache/project-graph.json",
+        "hash": "6603782578803896619"
+      },
+      {
         "file": ".vscode/extensions.json",
         "hash": "592272277800690021"
       },
@@ -102,11 +122,11 @@
       },
       {
         "file": "package-lock.json",
-        "hash": "9744798841751892867"
+        "hash": "5963090755188620082"
       },
       {
         "file": "package.json",
-        "hash": "12133960300117352397"
+        "hash": "3408269721424611980"
       },
       {
         "file": "src/app/app-routing.module.ts",
@@ -114,11 +134,11 @@
       },
       {
         "file": "src/app/app.component.html",
-        "hash": "6757040410205819923"
+        "hash": "16218049733094645078"
       },
       {
         "file": "src/app/app.component.scss",
-        "hash": "2713676459085841336"
+        "hash": "3244421341483603138"
       },
       {
         "file": "src/app/app.component.spec.ts",
@@ -126,27 +146,59 @@
       },
       {
         "file": "src/app/app.component.ts",
-        "hash": "13708779198578487327"
+        "hash": "7944802325233233365"
       },
       {
         "file": "src/app/app.module.ts",
-        "hash": "10971534563457283788"
+        "hash": "6427352107347520169"
       },
       {
-        "file": "src/app/components/events-day/events-day.component.html",
-        "hash": "7838800609135665377"
+        "file": "src/app/components/desktop-format/desktop-format.component.html",
+        "hash": "5403912641968062019"
       },
       {
-        "file": "src/app/components/events-day/events-day.component.scss",
+        "file": "src/app/components/desktop-format/desktop-format.component.scss",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "src/app/components/desktop-format/desktop-format.component.spec.ts",
+        "hash": "2295692664276924834"
+      },
+      {
+        "file": "src/app/components/desktop-format/desktop-format.component.ts",
+        "hash": "4320800896015626745"
+      },
+      {
+        "file": "src/app/components/mobile-format/events-day/events-day.component.html",
+        "hash": "2379704005760105617"
+      },
+      {
+        "file": "src/app/components/mobile-format/events-day/events-day.component.scss",
         "hash": "7490576293307546732"
       },
       {
-        "file": "src/app/components/events-day/events-day.component.spec.ts",
+        "file": "src/app/components/mobile-format/events-day/events-day.component.spec.ts",
         "hash": "14133355328745807861"
       },
       {
-        "file": "src/app/components/events-day/events-day.component.ts",
-        "hash": "4532279359402323790"
+        "file": "src/app/components/mobile-format/events-day/events-day.component.ts",
+        "hash": "16467252702287813562"
+      },
+      {
+        "file": "src/app/components/mobile-format/mobile-format.component.html",
+        "hash": "6162535548543425912"
+      },
+      {
+        "file": "src/app/components/mobile-format/mobile-format.component.scss",
+        "hash": "2713676459085841336"
+      },
+      {
+        "file": "src/app/components/mobile-format/mobile-format.component.spec.ts",
+        "hash": "6079083109918877139"
+      },
+      {
+        "file": "src/app/components/mobile-format/mobile-format.component.ts",
+        "hash": "14869791141601107592"
       },
       {
         "file": "src/app/modeles/ICalModel.ts",
@@ -162,15 +214,15 @@
       },
       {
         "file": "src/app/services/calendarRTAI/calendar-rtai.service.ts",
-        "hash": "1875690011049922426"
+        "hash": "241908929161818092"
       },
       {
-        "file": "src/app/services/toggleTheme/toggle-theme.service.spec.ts",
-        "hash": "855369812777386617"
+        "file": "src/app/services/format-detection/format-detection.service.spec.ts",
+        "hash": "15111253207707119262"
       },
       {
-        "file": "src/app/services/toggleTheme/toggle-theme.service.ts",
-        "hash": "1617714725951359055"
+        "file": "src/app/services/format-detection/format-detection.service.ts",
+        "hash": "15416085695795415109"
       },
       {
         "file": "src/assets/icon/favicon.png",
@@ -258,7 +310,7 @@
       },
       {
         "file": "src/global.scss",
-        "hash": "12234638728040246055"
+        "hash": "17213260768078704721"
       },
       {
         "file": "src/index.html",
@@ -266,7 +318,7 @@
       },
       {
         "file": "src/main.ts",
-        "hash": "978604568290537185"
+        "hash": "9809100337124649369"
       },
       {
         "file": "src/manifest.webmanifest",

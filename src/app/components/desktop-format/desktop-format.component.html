@@ -1,0 +1,57 @@
+<ion-menu contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menu Content</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">This is the menu content.</ion-content>
+</ion-menu>
+<div class="ion-page" id="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <div class="cal-button-group">
+        <div class="cal-button-right">
+          <div style="display: flex; margin-right: 150px"><ion-title>Menu</ion-title></div>
+          <ion-button id="today" mwlCalendarToday [(viewDate)]="viewDate">Aujourd'hui</ion-button>
+          <ion-button id="previous" mwlCalendarPreviousView [(viewDate)]="viewDate" [view]="view">
+            <ion-icon name="chevron-back-outline"></ion-icon>
+          </ion-button>
+          <ion-button id="next" mwlCalendarNextView [(viewDate)]="viewDate" [view]="view" >
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </ion-button>
+          <ion-button class="datepickers-button" (click)="showDatePickers = !showDatePickers" > {{viewDate.toLocaleString('fr', { month: 'long' })}} {{viewDate.getFullYear()}}</ion-button>
+        </div>
+        <ion-select class="cal-button-left" aria-label="dateView" value="week" (ionChange)="changeView($event)">
+          <ion-select-option value="month">Mois</ion-select-option>
+          <ion-select-option value="week">Semaine</ion-select-option>
+        </ion-select>
+      </div>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <div [ngSwitch]="view" class="cal-events-container" *ngIf="calendarRTAI.events != undefined" >
+      <mwl-calendar-month-view
+        *ngSwitchCase="calendarView.Month"
+        [viewDate]="viewDate"
+        [events]="events"
+        [weekStartsOn]="DAYS_OF_WEEK.MONDAY"
+        (eventClicked)="eventClicked($event)"
+        (dayClicked)="dayClicked($event)"
+        locale="fr">
+      </mwl-calendar-month-view>
+      <mwl-calendar-week-view
+        *ngSwitchCase="calendarView.Week"
+        [viewDate]="viewDate"
+        [events]="events"
+        [dayStartHour]="8"
+        [dayEndHour]="20"
+        [weekStartsOn]="DAYS_OF_WEEK.MONDAY"
+        (eventClicked)="eventClicked($event)"
+        locale="fr"
+      ></mwl-calendar-week-view>
+    </div>
+  </ion-content>
+</div>

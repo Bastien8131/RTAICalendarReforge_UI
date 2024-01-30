@@ -5,14 +5,17 @@ import { VEventsModel } from 'src/app/modeles/VEventsModel';
 import {environment} from "../../../environments/environment";
 import {map} from "rxjs";
 import {error} from "@angular/compiler-cli/src/transformers/util";
+import {CalendarEvent} from "angular-calendar";
+import {
+  CalendarEventActionsComponent
+} from "angular-calendar/modules/common/calendar-event-actions/calendar-event-actions.component";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CalendarRTAIService {
 
-  private _data!: ICalModel;
-
+  private _events!: ICalModel;
   private _eventsByDay!: {date: string, events: VEventsModel[]}[];
   private _eventsByMonth!: { days: { date: string, events: VEventsModel[] }[] }[];
 
@@ -21,8 +24,8 @@ export class CalendarRTAIService {
   ) {
   }
 
-  get data(): ICalModel {
-    return this._data;
+  get events(): ICalModel {
+    return this._events;
   }
 
 
@@ -30,133 +33,12 @@ export class CalendarRTAIService {
     return this._eventsByMonth;
   }
 
-  set eventsByMonth(value: { days: { date: string; events: VEventsModel[] }[] }[]) {
-    this._eventsByMonth = value;
-  }
-
-  getCalendarData(){
-    // this.loadingService.changeLoadingStatus()
-    this.httpClient
-      .get("http://localhost:8080/API-RTAICalReforge/events")
-      .subscribe((response) => {
-        // console.log(response);
-        this._data = response as ICalModel;
-    });
-  }
-
-  groupRTAIEventByDay(){
-    let eventsByDay: {date: string, events: VEventsModel[]}[] = [];
-    for (let event of this.data.VEVENTS) {
-      let date = this.convertirStringEnDate(event.DTSTART);
-
-      let year = date.getFullYear().toString();
-      let month = (date.getMonth() + 1).toString();
-      if (month.length == 1) month = "0" + month;
-      let day = date.getDate().toString();
-      if (day.length == 1) day = "0" + day;
-
-      let dateKey = year + "-" + month + "-" + day;
-
-      let index = eventsByDay.findIndex((value) => value.date == dateKey);
-      if (index == -1) {
-        eventsByDay.push({date: dateKey, events: [event]});
-      } else {
-        eventsByDay[index].events.push(event);
-      }
-
-    }
-
-    eventsByDay.sort((a, b) => {
-      let dateA = new Date(a.date);
-      let dateB = new Date(b.date);
-      return dateA.getTime() - dateB.getTime();
-    });
-
-    //trie les events d'un jour par heure
-    for (let day of eventsByDay) {
-      day.events.sort((a, b) => {
-        let dateA = this.convertirStringEnDate(a.DTSTART);
-        let dateB = this.convertirStringEnDate(b.DTSTART);
-        return dateA.getTime() - dateB.getTime();
-      });
-    }
-
-    // console.log(eventsByDay)
-    return eventsByDay;
-  }
-
-  groupRTAIEventsByMonth(){
-    let eventsByDay = this.groupRTAIEventByDay();
-    let eventsByMouth: { days: { date: string, events: VEventsModel[] }[] }[] = [];
-
-    for (let i = 0; i < 12; i++) {
-      eventsByMouth[i] = { days: [] };
-    }
-
-    for (let event of eventsByDay) {
-      // console.log(new Date(event.date).getMonth())
-      switch (new Date(event.date).getMonth()) {
-        case 0:
-          if (eventsByMouth[0] == undefined) eventsByMouth[0] = { days: [] };
-          eventsByMouth[0].days.push(event);
-          break;
-        case 1:
-          if (eventsByMouth[1] == undefined) eventsByMouth[1] = { days: [] };
-          eventsByMouth[1].days.push(event);
-          break;
-        case 2:
-          if (eventsByMouth[2] == undefined) eventsByMouth[2] = { days: [] };
-          eventsByMouth[2].days.push(event);
-          break;
-        case 3:
-          if (eventsByMouth[3] == undefined) eventsByMouth[3] = { days: [] };
-          eventsByMouth[3].days.push(event);
-          break;
-        case 4:
-          if (eventsByMouth[4] == undefined) eventsByMouth[4] = { days: [] };
-          eventsByMouth[4].days.push(event);
-          break;
-        case 5:
-          if (eventsByMouth[5] == undefined) eventsByMouth[5] = { days: [] };
-          eventsByMouth[5].days.push(event);
-          break;
-        case 6:
-          if (eventsByMouth[6] == undefined) eventsByMouth[6] = { days: [] };
-          eventsByMouth[6].days.push(event);
-          break;
-        case 7:
-          if (eventsByMouth[7] == undefined) eventsByMouth[7] = { days: [] };
-          eventsByMouth[7].days.push(event);
-          break;
-        case 8:
-          if (eventsByMouth[8] == undefined) eventsByMouth[8] = { days: [] };
-          eventsByMouth[8].days.push(event);
-          break;
-        case 9:
-          if (eventsByMouth[9] == undefined) eventsByMouth[9] = { days: [] };
-          eventsByMouth[9].days.push(event);
-          break;
-        case 10:
-          if (eventsByMouth[10] == undefined) eventsByMouth[10] = { days: [] };
-          eventsByMouth[10].days.push(event);
-          break;
-        case 11:
-          if (eventsByMouth[11] == undefined) eventsByMouth[11] = { days: [] };
-          eventsByMouth[11].days.push(event);
-      }
-    }
-
-    // console.log(eventsByMouth)
-
-    return eventsByMouth;
-  }
-
   getEventsByMonths() {
     // console.log("getEventsByMonth");
 
     return new Promise((resolve, reject) => {
-      // this.httpClient.get(`${environment.get('months')}`)
-      this.httpClient.get(`http://192.168.1.110:8080/API-RTAICalReforge/events/months`)
+      this.httpClient.get(`${environment.get('months')}`)
+      // this.httpClient.get(`http://192.168.1.110:8080/API-RTAICalReforge/events/months`)
         .subscribe(
           (response) => {
             // console.log(response);
@@ -169,6 +51,52 @@ export class CalendarRTAIService {
           }
         );
     });
+  }
+
+  getEvents() {
+    // console.log("getEventsByMonth");
+
+    return new Promise((resolve, reject) => {
+      this.httpClient.get(`${environment.get('all')}`)
+      // this.httpClient.get(`http://192.168.1.110:8080/API-RTAICalReforge/events`)
+        .subscribe(
+          (response) => {
+            // console.log(response);
+            this._events = response as ICalModel;
+            resolve(response);
+          },
+          (error) => {
+            console.error(error);
+            reject(error);
+          }
+        );
+    });
+  }
+
+  formatEventsForCalendar(){
+    let calendarEvents: CalendarEvent[] = [];
+    let data = this.events;
+    for (let event of data.VEVENTS) {
+      calendarEvents.push(
+        {
+          id: event.UID,
+          start: this.convertirStringEnDate(event.DTSTART),
+          end: this.convertirStringEnDate(event.DTEND),
+          title: event.SUMMARY + " - " + event.LOCATION,
+          meta: {
+            description: event.DESCRIPTION,
+            room: event.LOCATION,
+          },
+          allDay: false,
+          resizable: {
+            beforeStart: false,
+            afterEnd: false,
+          }
+        }
+      );
+    }
+    // console.log(calendarEvents);
+    return calendarEvents;
   }
 
 

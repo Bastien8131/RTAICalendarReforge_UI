@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {VEventsModel} from "../../modeles/VEventsModel";
-import {ToggleThemeService} from "../../services/toggleTheme/toggle-theme.service";
-import {CalendarRTAIService} from "../../services/calendarRTAI/calendar-rtai.service";
+import {VEventsModel} from "../../../modeles/VEventsModel";
+import {CalendarRTAIService} from "../../../services/calendarRTAI/calendar-rtai.service";
 
 @Component({
   selector: 'app-events-day',
@@ -18,7 +17,6 @@ export class EventsDayComponent  implements OnInit {
   @Input() dataMonth!: Promise<{ days: { date: string; events: VEventsModel[] }[] }[] | null>;
 
   constructor(
-    protected theme: ToggleThemeService,
     private calendarRTAI: CalendarRTAIService
   ) {
     // this.days = this.calendarRTAI.groupRTAIEventByDay();

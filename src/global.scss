@@ -25,6 +25,8 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
+
 /*
  * Optional CSS
  * -----------------------------------
@@ -64,4 +66,9 @@ ion-item {
 
 ion-content {
   -webkit-overflow-scrolling: touch;
+}
+
+ion-popover {
+  --width: 650px;
+  --height: 80vh;
 }
