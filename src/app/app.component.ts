@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormatDetectionService} from "./services/format-detection/format-detection.service";
 import * as moment from 'moment';
+import {StorageManagerService} from "./services/storage-manager/storage-manager.service";
 
 
 @Component({
@@ -9,10 +10,29 @@ import * as moment from 'moment';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  constructor(protected formatDetectionService: FormatDetectionService) { }
+
+  autoTheme: boolean = true;
+  isDarkTheme: boolean = false;
+  systemIsDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+  constructor(
+    protected formatDetectionService: FormatDetectionService,
+    private storageManager: StorageManagerService
+  ) { }
 
   ngOnInit() {
-    // Utilisez this.formatDetectionService.isMobile pour adapter le comportement de votre composant
+    // this.toggleDarkTheme(this.systemIsDark.matches);
+    // this.systemIsDark.addEventListener('change', (mediaQuery) => {
+    //   if (this.autoTheme) {
+    //     this.toggleDarkTheme(mediaQuery.matches);
+    //   }
+    // });
+
+  }
+
+  toggleDarkTheme(shouldAdd: boolean) {
+    this.isDarkTheme = shouldAdd;
+    document.body.classList.toggle('dark', shouldAdd);
   }
 }
 

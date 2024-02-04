@@ -7,10 +7,10 @@
     </ion-header>
     <ion-content class="ion-padding">
       <ion-item>
-        <ion-toggle [checked]="autoTheme" (ionChange)="autoTheme = !autoTheme; themeIsAsync()" justify="space-between">Theme Automatique</ion-toggle>
+        <ion-toggle [checked]="autoTheme" (ionChange)="autoTheme = !autoTheme; themeIsAsync(); saveParam()" justify="space-between">Theme Automatique</ion-toggle>
       </ion-item>
       <ion-item *ngIf="!autoTheme">
-        <ion-toggle [checked]="isDarkTheme" (ionChange)="changeTheme($event)" checked="false" justify="space-between">
+        <ion-toggle [checked]="isDarkTheme" (ionChange)="changeTheme($event); saveParam()" checked="false" justify="space-between">
           <span *ngIf="isDarkTheme" >Theme Sombre</span>
           <span *ngIf="!isDarkTheme" >Theme Clair</span>
         </ion-toggle>
@@ -19,12 +19,16 @@
       <!--        <ion-toggle [(ngModel)]="themeToggle" (ionChange)="changeTheme($event)" justify="space-between">Theme Sombre</ion-toggle>-->
       <!--      </ion-item>-->
       <ion-item>
-        <ion-toggle [checked]="true" (ionChange)="showRefreshButton = !showRefreshButton" justify="space-between">Bouton d'actualisation</ion-toggle>
+        <ion-toggle [checked]="true" (ionChange)="showRefreshButton = !showRefreshButton; saveParam()" justify="space-between">Bouton d'actualisation</ion-toggle>
       </ion-item>
       <ion-item *ngIf="!showRefreshButton" >
         <ion-label>Tirer vers le bas pour recharger la page</ion-label>
       </ion-item>
-      <!--      <ion-button (click)="setMonthSection()">test</ion-button>-->
+      <ion-item class="toggle-data-save">
+        <ion-toggle [checked]="paramMustBeSave" (ionChange)="paramMustBeSave = !paramMustBeSave; saveParam()" >
+          Sauvegarder mes <br> paramètres
+        </ion-toggle>
+      </ion-item>
     </ion-content>
   </ion-menu>
 

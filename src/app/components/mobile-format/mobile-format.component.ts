@@ -3,6 +3,7 @@ import {IonModal} from "@ionic/angular";
 import {ICalModel} from "../../modeles/ICalModel";
 import {VEventsModel} from "../../modeles/VEventsModel";
 import {CalendarRTAIService} from "../../services/calendarRTAI/calendar-rtai.service";
+import {StorageManagerService} from "../../services/storage-manager/storage-manager.service";
 
 @Component({
   selector: 'mobile-format',
@@ -15,6 +16,13 @@ export class MobileFormatComponent  implements OnInit {
   data!: ICalModel;
   dataMonth!: { days: { date: string, events: VEventsModel[] }[] }[];
 
+  param!: {
+    saveData: boolean,
+    autoTheme: boolean,
+    isDarkTheme: boolean,
+    showRefreshButton: boolean
+  };
+  paramMustBeSave: boolean = false;
 
   currentDate: string = new Date().toISOString();
   monthView: string = new Date().toLocaleString('fr-FR', { month: 'long' });
@@ -57,26 +65,28 @@ export class MobileFormatComponent  implements OnInit {
 
 
   constructor(
-    protected calendarRTAI: CalendarRTAIService
+    protected calendarRTAI: CalendarRTAIService,
+    private storageManager: StorageManagerService
   ) {
   }
 
   ngOnInit() {
     // this.calendarRTAI.getCalendarData();
-
-    this.toggleDarkTheme(this.systemIsDark.matches);
+    if(this.storageManager.keyExistsInLocalStorage('param')){
+      this.param = this.storageManager.getItemFromLocalStorage('param');
+      this.paramMustBeSave = this.param.saveData;
+      this.autoTheme = this.param.autoTheme;
+      this.isDarkTheme = this.param.isDarkTheme;
+      this.toggleDarkTheme(this.isDarkTheme);
+    }else {
+      this.toggleDarkTheme(this.systemIsDark.matches);
+    }
     this.systemIsDark.addEventListener('change', (mediaQuery) => {
       if (this.autoTheme) {
         this.toggleDarkTheme(mediaQuery.matches);
       }
     });
-
-
-
-
   }
-
-
 
   onScroll() {
     this.setMonthView()
@@ -254,5 +264,19 @@ export class MobileFormatComponent  implements OnInit {
 
   searchbarIsFav(search: string) {
     return this.searchFav.includes(search)
+  }
+
+  saveParam() {
+    console.log(this.paramMustBeSave);
+    if(this.paramMustBeSave) {
+      this.storageManager.setItemInLocalStorage('param', {
+        saveData: this.paramMustBeSave,
+        autoTheme: this.autoTheme,
+        isDarkTheme: this.isDarkTheme,
+        showRefreshButton: this.showRefreshButton
+      });
+    }else{
+      this.storageManager.clearItemOfLocalStorage('param');
+    }
   }
 }

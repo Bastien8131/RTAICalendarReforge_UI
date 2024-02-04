@@ -37,8 +37,8 @@ export class CalendarRTAIService {
     // console.log("getEventsByMonth");
 
     return new Promise((resolve, reject) => {
-      this.httpClient.get(`${environment.get('months')}`)
-      // this.httpClient.get(`http://192.168.1.110:8080/API-RTAICalReforge/events/months`)
+      // this.httpClient.get(`${environment.get('months')}`)
+      this.httpClient.get(`https://androcode.fr:2401/API-RTAICalReforge/events/months`)
         .subscribe(
           (response) => {
             // console.log(response);
@@ -57,8 +57,8 @@ export class CalendarRTAIService {
     // console.log("getEventsByMonth");
 
     return new Promise((resolve, reject) => {
-      this.httpClient.get(`${environment.get('all')}`)
-      // this.httpClient.get(`http://192.168.1.110:8080/API-RTAICalReforge/events`)
+      // this.httpClient.get(`${environment.get('all')}`)
+      this.httpClient.get(`https://androcode.fr:2401/API-RTAICalReforge/events`)
         .subscribe(
           (response) => {
             // console.log(response);

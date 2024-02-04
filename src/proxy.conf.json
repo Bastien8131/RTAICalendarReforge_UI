@@ -1,20 +1,20 @@
 {
   "/API-RTAICalReforge/events":{
-    "target": "http://localhost:8080/API-RTAICalReforge/events",
+    "target": "https://androcode.fr:2401/API-RTAICalReforge/events",
     "changeOrigin": true,
     "pathRewrite": {
       "^/API-RTAICalReforge/events": ""
     }
   },
   "/API-RTAICalReforge/events/days":{
-    "target": "http://localhost:8080/API-RTAICalReforge/events/days",
+    "target": "https://androcode.fr:2401/API-RTAICalReforge/events/days",
     "changeOrigin": true,
     "pathRewrite": {
       "^/API-RTAICalReforge/events/days": ""
     }
   },
   "/API-RTAICalReforge/events/months":{
-    "target": "http://localhost:8080/API-RTAICalReforge/events/months",
+    "target": "https://androcode.fr:2401/API-RTAICalReforge/events/months",
     "changeOrigin": true,
     "pathRewrite": {
       "^/API-RTAICalReforge/events/months": ""

@@ -147,6 +147,81 @@ body.dark {
   --ion-color-light-contrast-rgb: 255, 255, 255;
   --ion-color-light-shade: #1e2023;
   --ion-color-light-tint: #383a3e;
+
+  $color_1: #e50000;
+  $background-color_1: #1f1f1f;
+  $background-color_2: #ffffff40;
+  $background-color_3: #7fb67c;
+
+  .cal-week-view, .cal-month-view{
+    background-color: #000000FF;
+    .cal-hour-odd {
+      background-color: #1f1f1f;
+    }
+    .cal-header.cal-today {
+      background-color: #7fb67c;
+    }
+  }
+
+  .cal-month-view {
+    .cal-cell-row {
+      &:hover {
+        background-color: $background-color_1;
+      }
+      .cal-cell {
+        &:hover {
+          background-color: $background-color_2;
+        }
+      }
+    }
+    .cal-cell.cal-has-events.cal-open {
+      background-color: $background-color_2;
+    }
+    .cal-day-cell.cal-today {
+      background-color: $background-color_3;
+    }
+    .cal-day-cell.cal-out-month {
+      .cal-day-number {
+        opacity: 0.5;
+      }
+    }
+    .cal-day-number {
+      opacity: 1;
+    }
+    .cal-day-cell.cal-weekend {
+      .cal-day-number {
+        color: $color_1;
+      }
+    }
+  }
+  .cal-week-view {
+    .cal-time-events {
+      .cal-day-columns {
+        &:not(.cal-resize-active) {
+          .cal-hour-segment {
+            &:hover {
+              background-color: $background-color_2;
+            }
+          }
+        }
+      }
+    }
+    .cal-day-headers {
+      .cal-header {
+        &:hover {
+          background-color: $background-color_2;
+        }
+      }
+      .cal-drag-over {
+        background-color: $background-color_2;
+      }
+    }
+  }
+
+  .toggle-data-save{
+    border-top: 0.2px white solid;
+  }
+
 }
 
 /*

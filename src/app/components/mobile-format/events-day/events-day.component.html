@@ -1,15 +1,11 @@
-
-
-
-
-<section *ngFor="let month of months" id="{{ getMonthId(month) }}" >
+<section *ngFor="let month of months" id="{{ getMonthId(month) }}">
   <img *ngIf="month.days.length != 0" src="{{getMonthImg(month)}}">
-  <div class="month-events" *ngFor="let day of month.days" >
+  <div class="month-events" *ngFor="let day of month.days">
     <div class="day-info" id="{{getDateInfo(day).time}}">
       <!--    {{test}}-->
       <span class="day-name">{{getDateInfo(day).day}}</span>
       <span class="day-number">{{getDateInfo(day).dayNumber}}</span>
-<!--          <span class="day-name">{{getDateInfo(day).month}}</span>-->
+      <!--          <span class="day-name">{{getDateInfo(day).month}}</span>-->
     </div>
     <div class="events">
       <ion-card *ngFor="let event of day.events">
@@ -30,8 +26,3 @@
     </div>
   </div>
 </section>
-<!--<div class="reload" [ngClass]="{'show': showRefreshButton}">-->
-<!--  <ion-button (click)="reloadPage()" >-->
-<!--    <ion-icon name="reload-outline"></ion-icon>-->
-<!--  </ion-button>-->
-<!--</div>-->

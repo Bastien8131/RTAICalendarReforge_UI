@@ -4,11 +4,17 @@
   .cal-button-right{
     display: flex;
     .datepickers-button{
-      margin-left: 20px;
+      margin-left: 100px;
     }
   }
   .cal-button-left{
     width: 100px;
     margin-right: 200px
   }
+}
+
+.toggle-data-save{
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 0.2px #000000FF solid;
 }

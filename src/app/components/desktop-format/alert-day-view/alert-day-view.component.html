@@ -1,5 +1,5 @@
-<div style="padding: 20px">
-  <h2>{{inputEvent.day.date.toLocaleString('fr-FR', { hour: 'numeric', minute: 'numeric', hour12: false })}}</h2>
+<div style="padding: 10px 20px 20px;">
+  <h2 style="padding-bottom: 10px; text-transform: capitalize ; text-align: center">{{inputEvent.day.date.toLocaleString('fr-FR', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' })}}</h2>
   <mwl-calendar-day-view style="height: 100%"
     [viewDate]="inputEvent.day.date"
     [events]="inputEvent.day.events"
