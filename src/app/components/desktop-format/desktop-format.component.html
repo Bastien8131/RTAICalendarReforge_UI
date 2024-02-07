@@ -19,6 +19,7 @@
         Sauvegarder mes <br> paramètres
       </ion-toggle>
     </ion-item>
+    <span style="position: absolute; bottom: 30px; width: 90%; text-align: center" >© Androcode 2024 <br> BORIES Bastien</span>
   </ion-content>
 </ion-menu>
 <div class="ion-page" id="main-content">
@@ -39,7 +40,7 @@
           </ion-button>
           <ion-button class="datepickers-button" id="click-showDatePickers" > {{viewDate.toLocaleString('fr', { month: 'long' })}} {{viewDate.getFullYear()}}</ion-button>
         </div>
-        <ion-select class="cal-button-left" aria-label="dateView" value="week"
+        <ion-select class="cal-button-left" aria-label="dateView" value="{{view}}"
                     (ionChange)="changeView($event)"
                     cancelText="Fermer"
         >

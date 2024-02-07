@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormatDetectionService} from "./services/format-detection/format-detection.service";
 import * as moment from 'moment';
 import {StorageManagerService} from "./services/storage-manager/storage-manager.service";
+import {CalendarRTAIService} from "./services/calendarRTAI/calendar-rtai.service";
 
 
 @Component({
@@ -17,17 +18,14 @@ export class AppComponent implements OnInit {
 
   constructor(
     protected formatDetectionService: FormatDetectionService,
-    private storageManager: StorageManagerService
+    private storageManager: StorageManagerService,
+    protected calendarRTAI: CalendarRTAIService,
   ) { }
 
   ngOnInit() {
-    // this.toggleDarkTheme(this.systemIsDark.matches);
-    // this.systemIsDark.addEventListener('change', (mediaQuery) => {
-    //   if (this.autoTheme) {
-    //     this.toggleDarkTheme(mediaQuery.matches);
-    //   }
-    // });
-
+    this.calendarRTAI.getEvents().then(r => {
+      this.calendarRTAI.getEventsByMonths();
+    });
   }
 
   toggleDarkTheme(shouldAdd: boolean) {

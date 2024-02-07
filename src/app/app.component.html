@@ -1,8 +1,7 @@
 
-<ng-container *ngIf="formatDetectionService.isMobile">
+<ng-container *ngIf="formatDetectionService.isMobile && calendarRTAI.eventsByMonth != undefined">
   <mobile-format></mobile-format>
 </ng-container>
-<ng-container *ngIf="!formatDetectionService.isMobile">
+<ng-container *ngIf="!formatDetectionService.isMobile && calendarRTAI.eventsByMonth != undefined">
   <desktop-format></desktop-format>
 </ng-container>
-<!--<mobile-format></mobile-format>-->

@@ -24,11 +24,24 @@
       <ion-item *ngIf="!showRefreshButton" >
         <ion-label>Tirer vers le bas pour recharger la page</ion-label>
       </ion-item>
+      <ion-item >
+        <div class="cal-view-selector">
+          <span class="cal-view-text" >Type de vue</span>
+          <ion-select class="cal-view-button" aria-label="dateView" value="{{view}}"
+                      (ionChange)="changeView($event)"
+                      cancelText="Fermer"
+          >
+            <ion-select-option value="diary">Agenda</ion-select-option>
+            <ion-select-option value="calendar">Calendrier</ion-select-option>
+          </ion-select>
+        </div>
+      </ion-item>
       <ion-item class="toggle-data-save">
         <ion-toggle [checked]="paramMustBeSave" (ionChange)="paramMustBeSave = !paramMustBeSave; saveParam()" >
           Sauvegarder mes <br> paramètres
         </ion-toggle>
       </ion-item>
+      <span style="position: absolute; bottom: 30px; width: 90%; text-align: center" >© Androcode 2024 <br> BORIES Bastien</span>
     </ion-content>
   </ion-menu>
 
@@ -43,27 +56,30 @@
           {{monthView}}
           <ion-icon slot="end" name="caret-down-outline" [ngClass]="{'rotate': showDatePickers}" ></ion-icon>
         </ion-button>
-        <ion-button fill="clear"  slot="end" id="open-modal">
+        <ion-button fill="clear" slot="end" id="open-modal" *ngIf="view == 'diary'">
           <ion-icon name="search-outline"></ion-icon>
         </ion-button>
-        <ion-button fill="clear" slot="end" (click)="goToTheStart()">
+        <ion-button fill="clear" slot="end" (click)="goToTheStart()" *ngIf="view == 'diary'">
           <ion-icon name="arrow-up-outline"></ion-icon>
         </ion-button>
-        <!--        <ion-button fill="clear" slot="end" (click)="goToTheEnd()">-->
-        <!--          <ion-icon name="arrow-down-outline"></ion-icon>-->
-        <!--        </ion-button>-->
+        <ion-button fill="clear" slot="end" id="previous" shape="round" mwlCalendarPreviousView [(viewDate)]="currentDate" [view]="calView" *ngIf="view == 'calendar'">
+          <ion-icon name="chevron-back-outline"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear" slot="end" id="next" shape="round" mwlCalendarNextView [(viewDate)]="currentDate" [view]="calView" *ngIf="view == 'calendar'">
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+        </ion-button>
       </ion-toolbar>
       <div class="datetime-picker" [ngClass]="{'show' : showDatePickers}">
         <ion-datetime
-          min="{{currentDate}}"
+          min="{{currentDateISO}}"
           locale="fr-FR"
           [isDateEnabled]="isWeekday"
           [(ngModel)]="selectedDateTime"
-          (ionChange)="showDay()"
+          (ionChange)="showDay($event.detail.value)"
         ></ion-datetime>
       </div>
     </ion-header>
-    <ion-content class="ion-padding" [scrollEvents]="true" (ionScroll)="onScroll()" >
+    <ion-content *ngIf="view == 'diary'" class="ion-padding diary" [scrollEvents]="true" (ionScroll)="onScroll($event)" >
 
       <ion-refresher slot="fixed" (ionRefresh)="reloadPage()">
         <ion-refresher-content></ion-refresher-content>
@@ -110,10 +126,12 @@
         </ng-template>
       </ion-modal>
 
-      <app-events-day
+      <app-events-day id="scroll"
         [search]="search"
         (afterView)="setMonthSection()"
       ></app-events-day>
+
+
 
       <div class="fixed-button reload-page" [ngClass]="{'show': showRefreshButton}">
         <ion-button (click)="reloadPage()" >
@@ -127,6 +145,18 @@
         </ion-button>
       </div>
 
+    </ion-content>
+    <ion-content *ngIf="view == 'calendar'" class="ion-padding calendar">
+      <div style="padding: 10px 20px 20px;">
+        <h2 style="padding-bottom: 10px; text-transform: capitalize ; text-align: center">{{currentDate.toLocaleString('fr-FR', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' })}}</h2>
+        <mwl-calendar-day-view style="height: 100%"
+            [viewDate]="currentDate"
+            [events]="getEventsOfThisDay()"
+            [dayStartHour]="8"
+            [dayEndHour]="20"
+            locale="fr"
+        ></mwl-calendar-day-view>
+      </div>
     </ion-content>
   </div>
 </ion-app>

@@ -19,31 +19,41 @@ export class StorageManagerService {
     this._saveData = value;
   }
 
-  setItemInLocalStorage(key: string, value: any) {
+  setItemInLocalStorage(item: string, value: any) {
     if(this.saveData){
       return;
     }
-    localStorage.setItem(key, JSON.stringify(value));
+    localStorage.setItem(item, JSON.stringify(value));
   }
 
-  getItemFromLocalStorage(key: string) {
-    return JSON.parse(localStorage.getItem(key) as string);
+  getItemFromLocalStorage(item: string, defaultReturn: any) {
+    if(this.keyExistsInLocalStorage(item)){
+      return JSON.parse(localStorage.getItem(item) as string);
+    }
+    return defaultReturn;
   }
 
-  removeItemFromLocalStorage(key: string) {
-    localStorage.removeItem(key);
+  getPropertyFromItemInLocalStorage(prop: string, item: string, defaultReturn: any) {
+    if(this.keyExistsInLocalStorage(item)){
+      return JSON.parse(localStorage.getItem(item) as string)[prop];
+    }
+    return defaultReturn;
+  }
+
+  removeItemFromLocalStorage(item: string) {
+    localStorage.removeItem(item);
   }
 
   clearLocalStorage() {
     localStorage.clear();
   }
 
-  clearItemOfLocalStorage(key: string) {
-    localStorage.removeItem(key);
+  clearItemOfLocalStorage(item: string) {
+    localStorage.removeItem(item);
   }
 
-  keyExistsInLocalStorage(key: string) {
-    return localStorage.getItem(key) !== null;
+  keyExistsInLocalStorage(item: string) {
+    return localStorage.getItem(item) !== null;
   }
 
   setItemInSessionStorage(key: string, value: any) {

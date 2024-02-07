@@ -24,26 +24,13 @@ export class EventsDayComponent  implements OnInit {
   }
 
   ngOnInit() {
-    this.downloadEventsByMonths();
+    this.months = this.calendarRTAI.eventsByMonth
+
   }
 
   ngOnChanges() {
     // this.months = this.searchInRTAIEvents(this.calendarRTAI.groupRTAIEventsByMonth());
     this.getEventsByMonths()
-  }
-
-  downloadEventsByMonths(){
-    this.calendarRTAI.getEventsByMonths()
-      .then((response) => {
-        // Faire quelque chose avec la réponse
-        // console.log("Traitement de la réponse :", response);
-        this.months = response as { days: { date: string, events: VEventsModel[] }[] }[];
-      })
-      .catch((error) => {
-        // Gérer l'erreur
-        console.error("Erreur lors de la requête :", error);
-        return null
-      });
   }
 
   getEventsByMonths(){

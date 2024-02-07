@@ -222,6 +222,10 @@ body.dark {
     border-top: 0.2px white solid;
   }
 
+  ion-datetime{
+    color: #ffffff;
+  }
+
 }
 
 /*
@@ -308,6 +312,8 @@ body.dark {
   --ion-tab-bar-background: #1f1f1f;
 
   --ion-card-background: #1e1e1e;
+
+
 }
 
 html {
@@ -318,3 +324,12 @@ html {
   --ion-dynamic-font: var(--ion-default-dynamic-font);
 }
 
+
+.calendar-day-wrapper {
+  color: black;
+  background: #2dd36f;
+}
+
+ion-datetime{
+  color: black;
+}

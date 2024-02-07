@@ -21,7 +21,12 @@ export class DesktopFormatComponent  implements OnInit {
   param!: {
     saveData: boolean,
     autoTheme: boolean,
-    isDarkTheme: boolean
+    isDarkTheme: boolean,
+    showRefreshButton: boolean
+    searchHistory: string[];
+    searchFav: string[];
+    mobileView: string,
+    desktopView: CalendarView
   };
   paramMustBeSave: boolean = false;
 
@@ -55,10 +60,11 @@ export class DesktopFormatComponent  implements OnInit {
 
   ngOnInit() {
     if(this.storageManager.keyExistsInLocalStorage('param')){
-      this.param = this.storageManager.getItemFromLocalStorage('param');
+      this.param = this.storageManager.getItemFromLocalStorage('param', {});
       this.paramMustBeSave = this.param.saveData;
       this.autoTheme = this.param.autoTheme;
       this.isDarkTheme = this.param.isDarkTheme;
+      this.view = this.param.desktopView as CalendarView;
       this.toggleDarkTheme(this.isDarkTheme);
     }else {
       this.toggleDarkTheme(this.systemIsDark.matches);
@@ -68,10 +74,7 @@ export class DesktopFormatComponent  implements OnInit {
         this.toggleDarkTheme(mediaQuery.matches);
       }
     });
-
-    this.calendarRTAI.getEvents().finally(() => {
-      this.events = this.calendarRTAI.formatEventsForCalendar();
-    });
+    this.events = this.calendarRTAI.formatEventsForCalendar();
   }
 
   //---FONCTIONS POUR LE CHANGEMENT DE THEME---//
@@ -105,6 +108,7 @@ export class DesktopFormatComponent  implements OnInit {
     } else if ($event.detail.value == "month"){
       this.view = CalendarView.Month;
     }
+    this.saveParam();
   }
 
   async eventClicked({event}: { event: CalendarEvent }) {
@@ -164,7 +168,12 @@ export class DesktopFormatComponent  implements OnInit {
       this.storageManager.setItemInLocalStorage('param', {
         saveData: this.paramMustBeSave,
         autoTheme: this.autoTheme,
-        isDarkTheme: this.isDarkTheme
+        isDarkTheme: this.isDarkTheme,
+        showRefreshButton: this.storageManager.getPropertyFromItemInLocalStorage('showRefreshButton', 'param', true),
+        searchHistory: this.storageManager.getPropertyFromItemInLocalStorage('searchHistory', 'param', []),
+        searchFav: this.storageManager.getPropertyFromItemInLocalStorage('searchFav', 'param', []),
+        mobileView: this.storageManager.getPropertyFromItemInLocalStorage('mobileView', 'param', 'diary'),
+        desktopView: this.view
       });
     }else{
       this.storageManager.clearItemOfLocalStorage('param');

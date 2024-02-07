@@ -4,6 +4,8 @@ import {ICalModel} from "../../modeles/ICalModel";
 import {VEventsModel} from "../../modeles/VEventsModel";
 import {CalendarRTAIService} from "../../services/calendarRTAI/calendar-rtai.service";
 import {StorageManagerService} from "../../services/storage-manager/storage-manager.service";
+import {CalendarView} from "angular-calendar";
+import {FormatDetectionService} from "../../services/format-detection/format-detection.service";
 
 @Component({
   selector: 'mobile-format',
@@ -21,10 +23,18 @@ export class MobileFormatComponent  implements OnInit {
     autoTheme: boolean,
     isDarkTheme: boolean,
     showRefreshButton: boolean
+    searchHistory: string[];
+    searchFav: string[];
+    mobileView: string,
+    desktopView: CalendarView
   };
   paramMustBeSave: boolean = false;
+  view: string = 'diary';
+  calView= CalendarView.Day;
 
-  currentDate: string = new Date().toISOString();
+
+  currentDate = new Date();
+  currentDateISO: string = new Date(this.currentDate.getTime() - (this.currentDate.getTimezoneOffset() * 60000)).toISOString();
   monthView: string = new Date().toLocaleString('fr-FR', { month: 'long' });
   showDatePickers: boolean = false;
   showRefreshButton: boolean = true;
@@ -63,20 +73,25 @@ export class MobileFormatComponent  implements OnInit {
   isDarkTheme: boolean = false;
   systemIsDark = window.matchMedia('(prefers-color-scheme: dark)');
 
-
   constructor(
     protected calendarRTAI: CalendarRTAIService,
-    private storageManager: StorageManagerService
+    private storageManager: StorageManagerService,
+    private detectionService: FormatDetectionService
   ) {
   }
 
   ngOnInit() {
-    // this.calendarRTAI.getCalendarData();
+    this.dataMonth = this.calendarRTAI.eventsByMonth
+
     if(this.storageManager.keyExistsInLocalStorage('param')){
-      this.param = this.storageManager.getItemFromLocalStorage('param');
+      this.param = this.storageManager.getItemFromLocalStorage('param', {});
       this.paramMustBeSave = this.param.saveData;
       this.autoTheme = this.param.autoTheme;
       this.isDarkTheme = this.param.isDarkTheme;
+      this.showRefreshButton = this.param.showRefreshButton;
+      this.searchHistory = this.param.searchHistory as string[];
+      this.searchFav = this.param.searchFav as string[];
+      this.view = this.param.mobileView;
       this.toggleDarkTheme(this.isDarkTheme);
     }else {
       this.toggleDarkTheme(this.systemIsDark.matches);
@@ -88,8 +103,9 @@ export class MobileFormatComponent  implements OnInit {
     });
   }
 
-  onScroll() {
+  onScroll($event: any) {
     this.setMonthView()
+    this.detectionService.scrollTop = $event.detail.scrollTop
   }
 
   reloadPage() {
@@ -120,21 +136,25 @@ export class MobileFormatComponent  implements OnInit {
 
   //---FONCTIONS LIEES AU CALENDRIER---//
 
-  showDay() {
-    let ionMain = document.querySelector("#main-content > ion-content")?.shadowRoot?.querySelector("main") as HTMLElement;
+  showDay(value: any) {
+    if(this.view == 'diary'){
+      let ionMain = document.querySelector("#main-content > ion-content")?.shadowRoot?.querySelector("main") as HTMLElement;
 
-    // console.log(this.selectedDateTime)
-    let splitDate = this.selectedDateTime.split('T')[0] + 'T00:00:00'
-    // console.log(splitDate)
-    let time = new Date(splitDate).getTime()
-    // console.log(time)
-    // console.log(new Date(time))
+      // console.log(this.selectedDateTime)
+      let splitDate = this.selectedDateTime.split('T')[0] + 'T00:00:00'
+      // console.log(splitDate)
+      let time = new Date(splitDate).getTime()
+      // console.log(time)
+      // console.log(new Date(time))
 
 
-    let element = document.getElementById(String(time)) as HTMLElement
-    // console.log(element.offsetTop)
-    ionMain.scrollTo(0, element.offsetTop - 100)
-    this.monthView = new Date(time).toLocaleDateString('fr-FR', { month: 'long' })
+      let element = document.getElementById(String(time)) as HTMLElement
+      // console.log(element.offsetTop)
+      ionMain.scrollTo(0, element.offsetTop - 100)
+      this.monthView = new Date(time).toLocaleDateString('fr-FR', { month: 'long' })
+    }else if(this.view == 'calendar'){
+      this.currentDate = new Date(value);
+    }
   }
 
   setMonthView() {
@@ -221,6 +241,7 @@ export class MobileFormatComponent  implements OnInit {
     if(this.search.length >= 3){
       this.dismissModal();
       this.pushInSearchHistory(this.search);
+      this.saveParam();
     }
   }
 
@@ -245,6 +266,7 @@ export class MobileFormatComponent  implements OnInit {
   deleteHistoryItem(search: string) {
     if(!this.searchFav.includes(search)){
       this.searchHistory = this.searchHistory.filter((value => value != search))
+      this.saveParam();
     }
 
   }
@@ -253,6 +275,7 @@ export class MobileFormatComponent  implements OnInit {
     console.log(this.searchFav.length)
     if(!this.searchFav.includes(search) && this.searchFav.length < 10){
       this.searchFav.unshift(search)
+      this.saveParam();
     }
 
   }
@@ -260,6 +283,7 @@ export class MobileFormatComponent  implements OnInit {
   deleteSearchToFav(search: string) {
     console.log(this.searchFav.length)
     this.searchFav = this.searchFav.filter((value => value != search))
+    this.saveParam();
   }
 
   searchbarIsFav(search: string) {
@@ -267,16 +291,40 @@ export class MobileFormatComponent  implements OnInit {
   }
 
   saveParam() {
-    console.log(this.paramMustBeSave);
+    // console.log(this.paramMustBeSave);
     if(this.paramMustBeSave) {
       this.storageManager.setItemInLocalStorage('param', {
         saveData: this.paramMustBeSave,
         autoTheme: this.autoTheme,
         isDarkTheme: this.isDarkTheme,
-        showRefreshButton: this.showRefreshButton
+        showRefreshButton: this.showRefreshButton,
+        searchHistory: this.searchHistory,
+        searchFav: this.searchFav,
+        mobileView: this.view,
+        desktopView: this.storageManager.getPropertyFromItemInLocalStorage('desktopView', 'param', 'month')
       });
     }else{
       this.storageManager.clearItemOfLocalStorage('param');
     }
+  }
+
+  changeView($event: any) {
+    console.log($event.detail.value);
+    this.view = $event.detail.value;
+    this.saveParam();
+  }
+
+  getEventsOfThisDay() {
+    // let events: VEventsModel[] = []
+    // // console.log(this.dataMonth)
+    // this.dataMonth.forEach((month) => {
+    //   month.days.forEach((day) => {
+    //     if(day.date == this.currentDateISO.split('T')[0]){
+    //       events = day.events
+    //     }
+    //   })
+    // })
+
+    return this.calendarRTAI.formatEventsForCalendar()
   }
 }
